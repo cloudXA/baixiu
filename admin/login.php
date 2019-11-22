@@ -32,8 +32,12 @@
           if ($user = mysqli_fetch_assoc($result)) {
             // 用户存在,密码比对
             if ($user['password'] === $password) {
-              header('Location: /admin/index.php');
-              exit;
+              // 给用户发送cookie，保存用户的登录状态
+              setcookie('is_logged_in','true');
+              if (empty($_COOKIE['is_logged_in'])) {
+                header('Location: /admin/index.php');
+                exit;
+              }
             }
           } 
           $message = '邮箱与密码不匹配';
