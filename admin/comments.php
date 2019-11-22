@@ -1,6 +1,7 @@
 <?php 
     header("Content-type:text/html;charset=utf-8"); 
-
+    require '../functions.php';
+    xiu_get_current_user();
 
 ?>
 

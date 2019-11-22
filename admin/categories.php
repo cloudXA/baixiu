@@ -1,6 +1,15 @@
 <?php 
     header("Content-type:text/html;charset=utf-8"); 
+    /**
+     * 分类管理
+     */
+    // 载入脚本
+    require '../functions.php';
 
+    // 访问控制
+
+    // 获取登录用户信息
+    xiu_get_current_user();
 
 
 ?>

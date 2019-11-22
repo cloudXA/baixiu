@@ -45,5 +45,30 @@ function xiu_query($sql) {
     mysqli_close($connection);
     return $data;
 }
+/**
+ * 获取当前登录用户的信息
+ * 如果没有获取的话，则跳转到登录也
+ * 也可以通过全局变量访问返回结果
+ * @return array包含用户信息的关联数组
+ */
+function xiu_get_current_user () {
+    if (isset($GLOBALS['current_user'])) {
+        return $GLOBALS['current_user'];
+    }
 
+    // 启动会话
+    session_start();
+
+    if (empty($_SESSION['current_logged_in_user_id']) || !is_numeric($_SESSION['current_logged_in_user_id'])) {
+        // 没有登录标识就代表没有登录
+        // 跳转到登录页
+        header('Location: /admin/login.php');
+        exit;
+    }
+    // 根据ID获取当前登录用户信息（定义成全局的，方便后续使用）
+    $GLOBALS['current_user'] = xiu_query(sprintf('select * from users where id = %d limit 1', intval($_SESSION['current_logged_in_user_id'])))[0];
+
+    return $GLOBALS['current_user'];
+}
+ 
 ?>

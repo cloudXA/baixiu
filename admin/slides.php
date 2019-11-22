@@ -1,6 +1,8 @@
 <?php 
     header("Content-type:text/html;charset=utf-8"); 
-
+    require '../functions.php';
+    // 获取登录用户信息
+    xiu_get_current_user();
 
 
 ?>

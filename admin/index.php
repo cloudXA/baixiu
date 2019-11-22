@@ -3,15 +3,8 @@
     require '../functions.php';
     // 后台页面
     // 启动会话
-    session_start();
-    // 访问控制
-
-    if (empty($_SESSION['current_logged_in_user_id'])) {
-      // 代表没有登陆过
-      // 跳转到登录页面
-      header('Location: /admin/login.php');
-      exit;
-    }
+    // 获取登录用户信息
+    xiu_get_current_user();
 
     // 文章数
     $post_count = xiu_query('select count(1) from posts')[0][0];
