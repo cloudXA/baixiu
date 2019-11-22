@@ -1,7 +1,16 @@
 <?php 
     header("Content-type:text/html;charset=utf-8"); 
+    // 载入配置文件
+    require_once '../config.php';
+
+    
+
+
+
+
     // 判断是否是post请求
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
       if (empty($_POST['email']) || empty($_POST['password'])) {
         //没有完整填写表单
         $message = '请完整填写表单';
@@ -9,13 +18,32 @@
         //完整填写表单
         $email = $_POST['email'];
         $password = $_POST['password'];
+        $connection = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-        if ($email === 'admin@demo.com' && $password === 'cloud') {
-          header('Location: /admin/index.php');
-          exit;
+        // 建立数据库连接
+        if (!$connection) {
+          die('<h1>Connect Error (' . mysqli_connect_errno() .') ' . mysqli_connect_error() . '</h1>');
+        }
+
+        // 根据邮箱查询用户信息，limit是为了提高查询效率
+        $result = mysqli_query($connection, sprintf("select * from users where email = '%s' limit 1", $email));
+
+        if ($result) {
+          if ($user = mysqli_fetch_assoc($result)) {
+            // 用户存在,密码比对
+            if ($user['password'] === $password) {
+              header('Location: /admin/index.php');
+              exit;
+            }
+          } 
+          $message = '邮箱与密码不匹配';
+          // 释放资源
+          mysqli_free_result($result);
         } else {
+          // 查询失败
           $message = '邮箱与密码不匹配';
         }
+        mysqli_close($connection);
       }
     }
 

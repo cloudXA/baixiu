@@ -7,8 +7,8 @@ define('DB_HOST', 'localhost');
 // 用户名
 define('DB_USER', 'root');
 // 密码
-define('DB_PASS','laoye7499259');
+define('DB_PASS','');
 // 主机域名
-define('DB_NAME','baixiu-dev');
+define('DB_NAME','json');
 
 
