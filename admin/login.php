@@ -32,10 +32,11 @@
           if ($user = mysqli_fetch_assoc($result)) {
             // 用户存在,密码比对
             if ($user['password'] === $password) {
-              // 给用户发送cookie，保存用户的登录状态
-              session_start();              
-              // 匹配则跳转到/adimin/index.php
-              $_SESSION['is_logged_in'] = true;
+              // 启用新会话或者使用已有会话，（打开用户的箱子，如果该用户没有箱子，给他一个新的空箱子）
+              session_start();      
+              // 记录登录状态
+              $_SESSION['current_logged_in_user_id'] = $user['id'];
+              // 匹配则跳转到        
               header('Location: /admin/index.php');
               exit;
             }

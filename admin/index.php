@@ -6,7 +6,7 @@
     session_start();
     // 访问控制
 
-    if (empty($_SESSION['is_logged_in'])) {
+    if (empty($_SESSION['current_logged_in_user_id'])) {
       // 代表没有登陆过
       // 跳转到登录页面
       header('Location: /admin/login.php');
