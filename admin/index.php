@@ -1,6 +1,13 @@
 <?php 
     header("Content-type:text/html;charset=utf-8"); 
+    // 后台页面
 
+    if (empty($_COOKIE['is_logged_in'])) {
+      // 代表没有登陆过
+      // 跳转到登录页面
+      header('Location: /admin/login.php');
+      exit;
+    }
 
 
 ?>
