@@ -1,5 +1,6 @@
 <?php 
     header("Content-type:text/html;charset=utf-8"); 
+    require '../config.php';
     // 后台页面
     // 启动会话
     session_start();
@@ -11,6 +12,30 @@
       header('Location: /admin/login.php');
       exit;
     }
+    // 查询文章总数
+    $connection = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+    if (!$connection) {
+      die('<h1>Connect Error (' . mysqli_connect_errno() . ') ' . mysqli_connect_errno() . '</h1>');
+    }
+    // 查询posts
+    if ($result = mysqli_query($connection, 'select count(1) from posts')) {
+      $post_count = mysqli_fetch_row($result)[0];
+      mysqli_free_result($result);
+    }
+    // mysqli_close($connection);
+
+    // 查询drafted
+    if ($result = mysqli_query($connection, 'select count(1) from posts where status = \'drafted\'')) {
+      $drafted = mysqli_fetch_row($result)[0];
+      mysqli_free_result($result);
+    }
+    mysqli_close($connection);
+
+    
+    
+ 
+    
 
 
 ?>
@@ -52,7 +77,7 @@
               <h3 class="panel-title">站点内容统计：</h3>
             </div>
             <ul class="list-group">
-              <li class="list-group-item"><strong>10</strong>篇文章（<strong>2</strong>篇草稿）</li>
+              <li class="list-group-item"><strong><?php echo isset($post_count) ? $post_count : '查询失败'; ?></strong>篇文章（<strong><?php echo isset($post_count) ? $drafted : '查询失败'; ?></strong>篇草稿）</li>
               <li class="list-group-item"><strong>6</strong>个分类</li>
               <li class="list-group-item"><strong>5</strong>条评论（<strong>1</strong>条待审核）</li>
             </ul>
