@@ -1,8 +1,11 @@
 <?php 
     header("Content-type:text/html;charset=utf-8"); 
     // 后台页面
+    // 启动会话
+    session_start();
+    // 访问控制
 
-    if (empty($_COOKIE['is_logged_in'])) {
+    if (empty($_SESSION['is_logged_in'])) {
       // 代表没有登陆过
       // 跳转到登录页面
       header('Location: /admin/login.php');

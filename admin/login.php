@@ -33,8 +33,9 @@
             // 用户存在,密码比对
             if ($user['password'] === $password) {
               // 给用户发送cookie，保存用户的登录状态
-              setcookie('is_logged_in','true');
+              session_start();              
               // 匹配则跳转到/adimin/index.php
+              $_SESSION['is_logged_in'] = true;
               header('Location: /admin/index.php');
               exit;
             }
