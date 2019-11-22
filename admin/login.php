@@ -42,7 +42,8 @@
       <?php endif; ?>
       <div class="form-group">
         <label for="email" class="sr-only">邮箱</label>
-        <input id="email" type="email" name = "email" class="form-control" placeholder="邮箱" autofocus>
+        <!-- 添加了状态保持 -->
+        <input id="email" type="email" name = "email" class="form-control" placeholder="邮箱" autofocus value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>">
       </div>
       <div class="form-group">
         <label for="password" class="sr-only">密码</label>
