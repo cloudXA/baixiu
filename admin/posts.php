@@ -7,6 +7,40 @@
     // 查询全部文章数据
     $posts = xiu_query('select * from posts');
 
+    // 数据过滤函数
+    /**
+     * 将英文状态描述为中文
+     * @param string $status 英文状态
+     * @return string    中文状态
+     */
+    function convert_status ($status) {
+      switch ($status) {
+        case 'drafted':
+          return '草稿';
+        case 'published':
+          return '已发布';
+        case 'trashed':
+          return '回收站';
+        default:
+          return '未知';
+      }
+    }
+    /**
+     * 格式化日期
+     * @param string $created 时间字符串
+     * @return string 格式化后的事件字符串
+     */
+    function format_date ($created) {
+      //设置默认时区 PRC指的是中华人民共和国
+      date_default_timezone_set('PRC');
+
+      // 转换为时间戳
+      $timestamp = strtotime($created);
+
+      // 格式化并返回
+      return date('Y年m月d日 <b\r> H:i:s',$timestamp);
+    }
+
 
 ?>
 
@@ -83,8 +117,8 @@
             <td><?php echo $item['title']; ?></td>
             <td><?php echo $item['user_id']; ?></td>
             <td><?php echo $item['category_id']; ?></td>
-            <td class="text-center"><?php echo $item['created']; ?></td>
-            <td class="text-center"><?php echo $item['status']; ?></td>
+            <td class="text-center"><?php echo format_date($item['created']); ?></td>
+            <td class="text-center"><?php echo convert_status($item['status']); ?></td>
             <td class="text-center">
               <a href="javascript:;" class="btn btn-default btn-xs">编辑</a>
               <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
