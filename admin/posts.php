@@ -5,8 +5,17 @@
     xiu_get_current_user();
 
     // 处理分页
+    // 定义每页显示的数据量（一般把这一项定义到配置文件中）
     $size = 10;
-    $page = 2;
+
+    // 获取分页参数，没有或者传过来的不是数字的话默认为1
+    $poge = isset($_GET['p']) && is_numeric($_GET['p']) ? intval($_GET['p']) : 1;
+
+    if ($page <=0 ) {
+      // 页码小于1没有意义，跳转到第一页
+      header('Location: /admin/posts.php?p=1');
+      exit;
+    }
 
     // 查询全部文章数据
     $posts = xiu_query(sprintf('select 
