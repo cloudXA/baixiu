@@ -4,8 +4,12 @@
     // 获取登录用户信息
     xiu_get_current_user();
 
+    // 处理分页
+    $size = 10;
+    $page = 2;
+
     // 查询全部文章数据
-    $posts = xiu_query('select 
+    $posts = xiu_query(sprintf('select 
     posts.id,
     posts.title,
     posts.created,
@@ -14,7 +18,11 @@
     users.nickname as author_name
     from posts 
     inner join users on posts.user_id = users.id 
-    inner join categories on posts.category_id = categories.id');
+    inner join categories on posts.category_id = categories.id
+    order by posts.create desc
+    limit %d, %d',($page - 1) * $size, $size));
+  
+
     
 
     // 数据过滤函数
