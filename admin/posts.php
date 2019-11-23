@@ -41,6 +41,26 @@
       return date('Y年m月d日 <b\r> H:i:s',$timestamp);
     }
 
+    /**
+     * 根据ID获取分类信息
+     * @param integer $id 分类ID
+     * @return array      分类信息关联数组
+     */
+    function get_category ($id) {
+      $sql = sprintf('select * from categories where id = %d', $id);
+      return xiu_query($sql)[0];
+    }
+
+    /**
+     * 根据ID获取用户信息
+     * @param integer $id  用户ID
+     * @return array    用户信息关联数组
+     */
+
+     function get_author ($id) {
+       $sql = sprintf('select * from users where id = %d', $id);
+       return xiu_query($sql)[0];
+     }
 
 ?>
 
@@ -115,8 +135,8 @@
           <tr>
             <td class="text-center"><input type="checkbox"></td>
             <td><?php echo $item['title']; ?></td>
-            <td><?php echo $item['user_id']; ?></td>
-            <td><?php echo $item['category_id']; ?></td>
+            <td><?php echo get_author($item['user_id'])['nickname']; ?></td>
+            <td><?php echo get_category($item['category_id'])['name']; ?></td>
             <td class="text-center"><?php echo format_date($item['created']); ?></td>
             <td class="text-center"><?php echo convert_status($item['status']); ?></td>
             <td class="text-center">
