@@ -1,12 +1,20 @@
-<?php 
-    header("Content-type:text/html;charset=utf-8"); 
-    require '../functions.php';
-    // 获取登录用户信息
-    xiu_get_current_user();
+<?php
+/**
+ * 导航菜单管理
+ */
 
+// 载入脚本
+// ========================================
+
+require '../functions.php';
+
+// 访问控制
+// ========================================
+
+// 获取登录用户信息
+xiu_get_current_user();
 
 ?>
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -35,7 +43,7 @@
       </div>
       <!-- 有错误信息时展示 -->
       <!-- <div class="alert alert-danger">
-        <strong>错误！</strong>发生XXX错误
+        <strong>错误！</strong> 发生XXX错误
       </div> -->
       <div class="row">
         <div class="col-md-4">
@@ -109,7 +117,7 @@
   </div>
 
   <?php $current_page = 'nav-menus'; ?>
-  <?php include 'inc/siderbar.php'; ?>
+  <?php include 'inc/sidebar.php'; ?>
 
   <script src="/static/assets/vendors/jquery/jquery.js"></script>
   <script src="/static/assets/vendors/bootstrap/js/bootstrap.js"></script>

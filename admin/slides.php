@@ -1,12 +1,20 @@
-<?php 
-    header("Content-type:text/html;charset=utf-8"); 
-    require '../functions.php';
-    // 获取登录用户信息
-    xiu_get_current_user();
+<?php
+/**
+ * 图片轮播管理
+ */
 
+// 载入脚本
+// ========================================
+
+require '../functions.php';
+
+// 访问控制
+// ========================================
+
+// 获取登录用户信息
+xiu_get_current_user();
 
 ?>
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -35,7 +43,7 @@
       </div>
       <!-- 有错误信息时展示 -->
       <!-- <div class="alert alert-danger">
-        <strong>错误！</strong>发生XXX错误
+        <strong>错误！</strong> 发生XXX错误
       </div> -->
       <div class="row">
         <div class="col-md-4">
@@ -48,8 +56,8 @@
               <input id="image" class="form-control" name="image" type="file">
             </div>
             <div class="form-group">
-              <label for="text">文本</label>
-              <input id="text" class="form-control" name="text" type="text" placeholder="文本">
+              <label for="title">标题</label>
+              <input id="title" class="form-control" name="title" type="text" placeholder="标题">
             </div>
             <div class="form-group">
               <label for="link">链接</label>
@@ -70,7 +78,7 @@
               <tr>
                 <th class="text-center" width="40"><input type="checkbox"></th>
                 <th class="text-center">图片</th>
-                <th>文本</th>
+                <th>标题</th>
                 <th>链接</th>
                 <th class="text-center" width="100">操作</th>
               </tr>
@@ -102,7 +110,7 @@
   </div>
 
   <?php $current_page = 'slides'; ?>
-  <?php include 'inc/siderbar.php'; ?>
+  <?php include 'inc/sidebar.php'; ?>
 
   <script src="/static/assets/vendors/jquery/jquery.js"></script>
   <script src="/static/assets/vendors/bootstrap/js/bootstrap.js"></script>

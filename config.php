@@ -1,14 +1,24 @@
-<?php 
+<?php
+/**
+ * 项目配置文件
+ */
 
-// 项目用到的配置信息,公共用到的可能会修改的文件
+/**
+ * 数据库主机
+ */
+define('DB_HOST', '127.0.0.1');
 
-// 数据可主机
-define('DB_HOST', 'localhost');
-// 用户名
+/**
+ * 数据库用户名
+ */
 define('DB_USER', 'root');
-// 密码
-define('DB_PASS','');
-// 主机域名
-define('DB_NAME','json');
 
+/**
+ * 数据库密码
+ */
+define('DB_PASS', '');
 
+/**
+ * 数据库名称
+ */
+define('DB_NAME', 'test');
