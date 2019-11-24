@@ -59,7 +59,7 @@ xiu_get_current_user();
             <th>评论在</th>
             <th>提交于</th>
             <th>状态</th>
-            <th class="text-center" width="100">操作</th>
+            <th class="text-center" width="140">操作</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -72,34 +72,52 @@ xiu_get_current_user();
 
   <script src="/static/assets/vendors/jquery/jquery.js"></script>
   <script src="/static/assets/vendors/bootstrap/js/bootstrap.js"></script>
+  <!-- 载入模板引擎库 -->
+  <script src="/static/assets/vendors/jsrender/jsrender.js"></script>
+  <!-- 套模板 -->
+  <script id="comment_tmpl" type="text/x-jsrender">
+      {{if success}}
+      {{for data}}
+      <tr class="{{: status === 'held' ? 'warning' : status === 'rejected' ? 'danger' : ''}}" data-id="{{: id }}">
+        <td class="text-center"><input type="checkbox"></td>
+        <td>{{: author }}</td>
+        <td>{{: content }}</td>
+        <td>{{: post_title }}》</td>
+        <td>{{: created}}</td>
+        <td>{{: status === 'held' ? '待审' : status === 'rejected' ? '拒绝' : '准许'}}</td>
+        <td class="text-center">
+          {{if status === 'held'}}
+          <a href="javascript:;" class="btn btn-info btn-xs">批准</a>
+          <a href="javascript:;" class="btn btn-info btn-xs">拒绝</a>
+          {{/if}}
+          <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
+        </td>
+      </tr>
+      {{/for}}
+      {{else}}
+      <tr>
+        <td colspan="7">{{: message}}</td>
+      </tr>
+      {{/if}}
+  </script>
   <!-- 添加了脚本 -->
   <script>
     $(function () {
       var $alert = $('.alert')
       var $tbody = $('tbody');
+      var $tmpl = $('#comment_tmpl');
 
       // 页面加载完成过后，发送异步请求获取评论数据
       $.get('/admin/comment-list.php', {p: 1, s: 30},
       function (res) {
         console.log(res)
-        if (!res.success) {
-          return $alert.text(res.message);
-        }
-        // 将数据渲染到表格中
-        $(res.data).each(function (i,item) {
-          $tbody.append('<tr class="' + '' + '">' +
-          '  <td class="text-center"><input type="checkbox"></td>' +
-          '  <td>' + item.author + '</td>' +
-          '  <td>' + item.content + '</td>' +
-          '  <td>《' + item.post_title + '》</td>' +
-          '  <td>' + item.created + '</td>' +
-          '  <td>' + item.status + '</td>' +
-          '  <td class="text-center">' +
-          '    <a href="javascript:;" class="btn btn-info btn-xs">批准</a>' +
-          '    <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>' +
-          '  </td>' +
-          '</tr>')
-        })
+
+        // 通过模板引擎渲染数据
+        var html = $tmpl.render(res);
+
+        // 设置到页面中
+        $tbody.html(html);
+
       })
     })
   
