@@ -92,7 +92,7 @@ xiu_get_current_user();
           <a href="javascript:;" class="btn btn-info btn-xs">批准</a>
           <a href="javascript:;" class="btn btn-info btn-xs">拒绝</a>
           {{/if}}
-          <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
+          <a href="javascript:;" class="btn btn-danger btn-delete btn-xs">删除</a>
         </td>
       </tr>
       {{/for}}
@@ -137,6 +137,15 @@ xiu_get_current_user();
           }
         })
 
+      })
+      // 删除评论
+      $tbody.on('click', '.btn-delete', function() {
+        console.log(this);
+        var $tr = $(this).parent().parent();
+        var id = parseInt($tr.data('id'));
+        $.get('/admin/comment-delete.php', {id:id}, function(res) {
+          res.success && $tr.remove();
+        })
       })
     })
   
