@@ -89,8 +89,8 @@ xiu_get_current_user();
         <td>{{: status === 'held' ? '待审' : status === 'rejected' ? '拒绝' : '准许'}}</td>
         <td class="text-center">
           {{if status === 'held'}}
-          <a href="javascript:;" class="btn btn-info btn-xs">批准</a>
-          <a href="javascript:;" class="btn btn-info btn-xs">拒绝</a>
+          <a href="javascript:;" class="btn btn-info btn-xs btn-edit" data-status="approved">批准</a>
+          <a href="javascript:;" class="btn btn-info btn-xs btn-edit" data-status="rejected">拒绝</a>
           {{/if}}
           <a href="javascript:;" class="btn btn-danger btn-delete btn-xs">删除</a>
         </td>
@@ -113,14 +113,6 @@ xiu_get_current_user();
       var currentPage = 1;;
 
       // 加载指定页数据
-      function loadData () {
-        $.get('/admin/comment-list.php', {p: currentPage, s:size), function(res) {
-          // 通过模板引擎渲染数据
-          var html = $tmpl.render(res);
-          // 设置到页面中
-          $tbody.html(html);
-        }
-      }
 
       // 页面加载完成过后，发送异步请求获取评论数据
       $.get('/admin/comment-list.php', {p: 1, s: size},
@@ -139,8 +131,12 @@ xiu_get_current_user();
           totalPages: Math.ceil(res.total_count / size),
           onPageClick: function (event, page) {
             console.log(page);
-            currentPage = page;
-            loadData();
+            $.get('/admin/comment-list.php',{p: page, s:size}, function (res) {
+              // 通过模板引擎渲染数据
+              var html = $tmpl.render(res);
+              // 设置到页面中
+              $tbody.html(html);
+            })
           }
         })
 
@@ -151,6 +147,15 @@ xiu_get_current_user();
         var $tr = $(this).parent().parent();
         var id = parseInt($tr.data('id'));
         $.get('/admin/comment-delete.php', {id:id}, function(res) {
+          res.success && $tr.remove();
+        })
+      })
+
+      // 修改评论状态
+      $tbody.on('click','.btn-edit',function() {
+        var id =parseInt($(this).parent().parent().data('id'));
+        var status = $(this).data('status');
+        $.post('/admin/comment-status.php?id' + id, {status: status}, function (res) {
           res.success && loadData();
         })
       })
