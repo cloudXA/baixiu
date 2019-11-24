@@ -74,6 +74,8 @@ xiu_get_current_user();
   <script src="/static/assets/vendors/bootstrap/js/bootstrap.js"></script>
   <!-- 载入模板引擎库 -->
   <script src="/static/assets/vendors/jsrender/jsrender.js"></script>
+  <!-- 载入具有分页结果的模板 -->
+  <script src="/static/assets/vendors/twbs-pagination/jquery.twbsPagination.js"></script>
   <!-- 套模板 -->
   <script id="comment_tmpl" type="text/x-jsrender">
       {{if success}}
@@ -106,17 +108,27 @@ xiu_get_current_user();
       var $alert = $('.alert')
       var $tbody = $('tbody');
       var $tmpl = $('#comment_tmpl');
+      var $pagination = $('.pagination');
+      var size = 30;
 
       // 页面加载完成过后，发送异步请求获取评论数据
-      $.get('/admin/comment-list.php', {p: 1, s: 30},
+      $.get('/admin/comment-list.php', {p: 1, s: size},
       function (res) {
         console.log(res)
+        console.log(res.total_count,'total');
 
         // 通过模板引擎渲染数据
         var html = $tmpl.render(res);
 
         // 设置到页面中
         $tbody.html(html);
+        // 分页组件
+        $pagination.twbsPagination({
+          totalPages: Math.ceil(res.total_count / size),
+          onPageClick: function (event, page) {
+            console.log(page);
+          }
+        })
 
       })
     })
